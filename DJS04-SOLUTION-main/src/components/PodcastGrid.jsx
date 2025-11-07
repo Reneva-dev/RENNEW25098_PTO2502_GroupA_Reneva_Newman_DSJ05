@@ -2,6 +2,7 @@ import PodcastCard from "./PodcastCard";
 import { PodcastContext } from "../context/PodcastContext";
 import styles from "./PodcastGrid.module.css";
 import { useContext } from "react";
+import { Link } from "react-router-dom";  // <-- import Link
 
 /**
  * PodcastGrid Component
@@ -28,12 +29,16 @@ export default function PodcastGrid({ genres }) {
     );
   }
   return (
-    <>
-      <div className={styles.grid}>
-        {podcasts.map((podcast) => (
-          <PodcastCard key={podcast.id} podcast={podcast} genres={genres} />
-        ))}
-      </div>
-    </>
+    <div className={styles.grid}>
+      {podcasts.map((podcast) => (
+        <Link 
+          key={podcast.id} 
+          to={`/show/${podcast.id}`} 
+          className={styles.cardLink}  // optional, for styling links
+        >
+          <PodcastCard podcast={podcast} genres={genres} />
+        </Link>
+      ))}
+    </div>
   );
 }
