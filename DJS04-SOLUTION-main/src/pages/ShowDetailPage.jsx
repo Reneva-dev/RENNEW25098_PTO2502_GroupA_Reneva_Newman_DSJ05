@@ -2,23 +2,20 @@
 import React, { useEffect, useState } from "react";
 import { useParams, Link } from "react-router-dom";
 
-/**
- * ShowDetailPage
- * Displays detailed info for a specific podcast show.
- * Handles loading and error states, and formats data for readability.
- */
 export default function ShowDetailPage() {
-  const { id } = useParams(); // Get show ID from URL
+  const { id } = useParams();
   const [show, setShow] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const [expandedSeason, setExpandedSeason] = useState(null);
 
   useEffect(() => {
     async function fetchShowDetails() {
       try {
-        const res = await fetch(`https://podcast-api.netlify.app/id/${id}`);
-        if (!res.ok) throw new Error("Failed to fetch show details");
-        const data = await res.json();
+        setLoading(true);
+        const response = await fetch(`https://podcast-api.netlify.app/id/${id}`);
+        if (!response.ok) throw new Error("Failed to fetch show details");
+        const data = await response.json();
         setShow(data);
       } catch (err) {
         setError(err.message);
@@ -26,66 +23,92 @@ export default function ShowDetailPage() {
         setLoading(false);
       }
     }
-
     fetchShowDetails();
   }, [id]);
 
   if (loading) return <p>Loading show details...</p>;
   if (error) return <p>Error: {error}</p>;
-  if (!show) return <p>No show details found.</p>;
-
-  // Format last updated date
-  const updatedDate = new Date(show.updated).toLocaleDateString("en-US", {
-    year: "numeric",
-    month: "long",
-    day: "numeric",
-  });
+  if (!show) return <p>No show found.</p>;
 
   return (
-    <div className="show-detail" style={{ padding: "2rem" }}>
-      <Link to="/" style={{ textDecoration: "none", color: "#007bff" }}>
-        ← Back to Home
-      </Link>
-
-      <h1 style={{ marginTop: "1rem" }}>{show.title}</h1>
-
+    <div className="show-detail">
+      <Link to="/">← Back to Home</Link>
+      <h1>{show.title}</h1>
       <img
         src={show.image}
         alt={show.title}
-        style={{
-          width: "300px",
-          borderRadius: "10px",
-          margin: "1rem 0",
-        }}
+        style={{ width: "300px", borderRadius: "10px" }}
       />
+      <p>{show.description}</p>
+      <p><strong>Last updated:</strong> {new Date(show.updated).toLocaleDateString()}</p>
 
-      <p style={{ maxWidth: "600px", lineHeight: "1.6" }}>{show.description}</p>
-
-      <div style={{ marginTop: "1rem" }}>
-        <strong>Genres: </strong>
-        {show.genres && show.genres.length > 0 ? (
-          show.genres.map((genre) => (
-            <span
-              key={genre}
+      <h2>Seasons</h2>
+      {show.seasons && show.seasons.length > 0 ? (
+        show.seasons.map((season) => (
+          <div
+            key={season.id}
+            style={{
+              marginBottom: "1rem",
+              border: "1px solid #ddd",
+              padding: "1rem",
+              borderRadius: "8px",
+            }}
+          >
+            <h3
+              onClick={() =>
+                setExpandedSeason(
+                  expandedSeason === season.id ? null : season.id
+                )
+              }
               style={{
-                background: "#f0f0f0",
-                padding: "0.3rem 0.6rem",
-                borderRadius: "5px",
-                marginRight: "0.5rem",
-                fontSize: "0.9rem",
+                cursor: "pointer",
+                color: "#0077cc",
               }}
             >
-              {genre}
-            </span>
-          ))
-        ) : (
-          <span>No genres listed</span>
-        )}
-      </div>
+              {season.title} ({season.episodes.length} episodes)
+            </h3>
 
-      <p style={{ marginTop: "1rem" }}>
-        <strong>Last Updated:</strong> {updatedDate}
-      </p>
+            {expandedSeason === season.id && (
+              <div className="episodes">
+                {season.episodes.map((episode, index) => (
+                  <div
+                    key={episode.id}
+                    style={{
+                      display: "flex",
+                      alignItems: "center",
+                      marginBottom: "0.5rem",
+                      gap: "10px",
+                    }}
+                  >
+                    <img
+                      src={season.image}
+                      alt={`Season ${season.title}`}
+                      style={{
+                        width: "60px",
+                        height: "60px",
+                        objectFit: "cover",
+                        borderRadius: "6px",
+                      }}
+                    />
+                    <div>
+                      <h4>
+                        Episode {index + 1}: {episode.title}
+                      </h4>
+                      <p>
+                        {episode.description.length > 100
+                          ? episode.description.slice(0, 100) + "..."
+                          : episode.description}
+                      </p>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            )}
+          </div>
+        ))
+      ) : (
+        <p>No seasons available.</p>
+      )}
     </div>
   );
 }
