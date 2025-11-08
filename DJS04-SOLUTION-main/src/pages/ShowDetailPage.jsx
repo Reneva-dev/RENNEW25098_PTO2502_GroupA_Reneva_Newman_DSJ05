@@ -15,6 +15,7 @@ import { useParams, Link } from "react-router-dom";
  * @component
  * @returns {JSX.Element} The rendered show detail page
  */
+
 export default function ShowDetailPage() {
   const { id } = useParams();
   const [show, setShow] = useState(null);
@@ -45,20 +46,21 @@ export default function ShowDetailPage() {
 
   return (
     <div className="show-detail" style={{ textAlign: "center", padding: "1rem" }}>
-      <Link to="/">← Back to Home</Link>
+      <Link to="/" style={{ display: "block", marginBottom: "1rem" }}>
+        ← Back to Home
+      </Link>
       <h1 style={{ color: "black" }}>{show.title}</h1>
       <img
         src={show.image}
         alt={show.title}
         style={{ width: "300px", borderRadius: "10px", marginBottom: "1rem" }}
       />
-      <p>{show.description}</p>
-      <p>
+      <p style={{ maxWidth: "600px", margin: "0 auto 1rem auto" }}>{show.description}</p>
+      <p style={{ marginBottom: "2rem" }}>
         <strong>Last updated:</strong> {new Date(show.updated).toLocaleDateString()}
       </p>
 
-      <h2 style={{ color: "purple" }}>Seasons</h2>
-
+      <h2 style={{ color: "purple", marginBottom: "1rem" }}>Seasons</h2>
       {show.seasons && show.seasons.length > 0 ? (
         show.seasons.map((season) => (
           <div
@@ -69,6 +71,10 @@ export default function ShowDetailPage() {
               padding: "1rem",
               borderRadius: "8px",
               backgroundColor: "white",
+              maxWidth: "700px",
+              marginLeft: "auto",
+              marginRight: "auto",
+              textAlign: "left",
             }}
           >
             <h3
@@ -79,55 +85,61 @@ export default function ShowDetailPage() {
                 cursor: "pointer",
                 color: "purple",
                 margin: 0,
-                userSelect: "none",
               }}
             >
               {season.title} ({season.episodes.length} episodes)
             </h3>
 
             {expandedSeason === season.id && (
-              <div className="episodes" style={{ marginTop: "0.5rem", textAlign: "left" }}>
-                {season.episodes.map((episode, index) => (
-                  <div
-                    key={episode.id}
-                    style={{
-                      display: "flex",
-                      alignItems: "center",
-                      marginBottom: "0.5rem",
-                      gap: "10px",
-                    }}
-                  >
-                    <img
-                      src={season.image}
-                      alt={`Season ${season.title}`}
+              <div className="episodes" style={{ marginTop: "0.5rem" }}>
+                {season.episodes.length > 0 ? (
+                  season.episodes.map((episode, index) => (
+                    <div
+                      key={episode.id}
                       style={{
-                        width: "60px",
-                        height: "60px",
-                        objectFit: "cover",
-                        borderRadius: "6px",
+                        display: "flex",
+                        alignItems: "center",
+                        marginBottom: "0.5rem",
+                        gap: "10px",
                       }}
-                    />
-                    <div>
-                      <h4 style={{ color: "purple", margin: "0 0 0.25rem 0" }}>
-                        Episode {index + 1}: {episode.title}
-                      </h4>
-                      <p style={{ margin: 0 }}>
-                        {episode.description.length > 100
-                          ? episode.description.slice(0, 100) + "..."
-                          : episode.description}
-                      </p>
+                    >
+                      <img
+                        src={season.image}
+                        alt={`Season ${season.title}`}
+                        style={{
+                          width: "60px",
+                          height: "60px",
+                          objectFit: "cover",
+                          borderRadius: "6px",
+                        }}
+                      />
+                      <div>
+                        <h4 style={{ color: "purple", margin: "0 0 0.25rem 0" }}>
+                          Episode {index + 1}: {episode.title}
+                        </h4>
+                        <p style={{ margin: 0 }}>
+                          {episode.description.length > 100
+                            ? episode.description.slice(0, 100) + "..."
+                            : episode.description}
+                        </p>
+                      </div>
                     </div>
-                  </div>
-                ))}
+                  ))
+                ) : (
+                  <p style={{ fontStyle: "italic", color: "#666" }}>
+                    No episodes available for this season.
+                  </p>
+                )}
               </div>
             )}
           </div>
         ))
       ) : (
-        <p style={{ fontStyle: "italic", color: "#666" }}>No seasons available.</p>
+        <p>No seasons available.</p>
       )}
     </div>
   );
 }
+
 
 
