@@ -15,7 +15,6 @@ import { useParams, Link } from "react-router-dom";
  * @component
  * @returns {JSX.Element} The rendered show detail page
  */
-
 export default function ShowDetailPage() {
   const { id } = useParams();
   const [show, setShow] = useState(null);
@@ -46,21 +45,27 @@ export default function ShowDetailPage() {
 
   return (
     <div className="show-detail" style={{ textAlign: "center", padding: "1rem" }}>
-      <Link to="/" style={{ display: "block", marginBottom: "1rem" }}>
+      <Link to="/" style={{ display: "inline-block", marginBottom: "1rem" }}>
         ← Back to Home
       </Link>
+
       <h1 style={{ color: "black" }}>{show.title}</h1>
+
       <img
         src={show.image}
         alt={show.title}
         style={{ width: "300px", borderRadius: "10px", marginBottom: "1rem" }}
       />
-      <p style={{ maxWidth: "600px", margin: "0 auto 1rem auto" }}>{show.description}</p>
-      <p style={{ marginBottom: "2rem" }}>
-        <strong>Last updated:</strong> {new Date(show.updated).toLocaleDateString()}
+
+      <p>{show.description}</p>
+
+      <p>
+        <strong>Last updated:</strong>{" "}
+        {new Date(show.updated).toLocaleDateString()}
       </p>
 
-      <h2 style={{ color: "purple", marginBottom: "1rem" }}>Seasons</h2>
+      <h2 style={{ color: "purple", marginTop: "2rem" }}>Seasons</h2>
+
       {show.seasons && show.seasons.length > 0 ? (
         show.seasons.map((season) => (
           <div
@@ -71,9 +76,6 @@ export default function ShowDetailPage() {
               padding: "1rem",
               borderRadius: "8px",
               backgroundColor: "white",
-              maxWidth: "700px",
-              marginLeft: "auto",
-              marginRight: "auto",
               textAlign: "left",
             }}
           >
@@ -84,15 +86,15 @@ export default function ShowDetailPage() {
               style={{
                 cursor: "pointer",
                 color: "purple",
-                margin: 0,
+                marginBottom: "0.5rem",
               }}
             >
-              {season.title} ({season.episodes.length} episodes)
+              {season.title} ({season.episodes?.length || 0} episodes)
             </h3>
 
             {expandedSeason === season.id && (
               <div className="episodes" style={{ marginTop: "0.5rem" }}>
-                {season.episodes.length > 0 ? (
+                {season.episodes && season.episodes.length > 0 ? (
                   season.episodes.map((episode, index) => (
                     <div
                       key={episode.id}
@@ -114,7 +116,12 @@ export default function ShowDetailPage() {
                         }}
                       />
                       <div>
-                        <h4 style={{ color: "purple", margin: "0 0 0.25rem 0" }}>
+                        <h4
+                          style={{
+                            color: "purple",
+                            margin: "0 0 0.25rem 0",
+                          }}
+                        >
                           Episode {index + 1}: {episode.title}
                         </h4>
                         <p style={{ margin: 0 }}>
@@ -140,6 +147,5 @@ export default function ShowDetailPage() {
     </div>
   );
 }
-
 
 
