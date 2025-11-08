@@ -4,7 +4,7 @@
 Reneva Newman
 
 ## Module  
-DJS03 – React Landing Page
+DJS05 – Navigation and Routing
 
 ---
 
@@ -34,26 +34,29 @@ npm run dev
 Open in your browser
 Visit the URL displayed in your terminal, typically http://localhost:5173.
 
-🧩 Main Features
-Dynamic API Fetching: Fetches live podcast data from https://podcast-api.netlify.app/.
 
-Show Detail Page: View full podcast information including description, seasons, and episodes.
+## 🧩 Main Features
+-Dynamic API Fetching: Fetches live podcast data from https://podcast-api.netlify.app/.
 
-Search Bar: Filter podcasts by typing any part of the title with debounced input.
+-Show Detail Page: View full podcast information including description, seasons, and episodes.
 
-Genre Filter: Narrow down podcasts by selecting from available genres.
+-Search Bar: Filter podcasts by typing any part of the title with debounced input.
 
-Sort Options: Sort podcasts by last updated date or title alphabetically.
+-Genre Filter: Narrow down podcasts by selecting from available genres.
 
-Collapsible Seasons & Episodes: Expand seasons to see episodes in a clean, organized manner.
+-Sort Options: Sort podcasts by last updated date or title alphabetically.
 
-Loading and Error States: Provides user feedback when data is loading or an error occurs.
+-Collapsible Seasons & Episodes: Expand seasons to see episodes in a clean, organized manner.
 
-Responsive Design: Works well on different screen sizes.
+-Loading and Error States: Provides user feedback when data is loading or an error occurs.
 
-Accessible and Semantic HTML: Uses proper form controls and attributes for better accessibility.
+-Responsive Design: Works well on different screen sizes.
 
-⚠️ Known Limitations
+-Accessible and Semantic HTML: Uses proper form controls and attributes for better accessibility.
+
+
+
+## ⚠️ Known Limitations
 Pagination is not yet implemented; all podcasts and episodes load in a single view.
 
 Some podcast descriptions or episode details might be incomplete due to API data limitations.
@@ -62,7 +65,9 @@ Search, filter, and sort controls are currently separate; combining criteria is 
 
 No offline support or caching implemented.
 
-🎯 Project Goals
+
+
+## 🎯 Project Goals
 Utilize React hooks (useState, useEffect) for API data fetching and state management.
 
 Demonstrate reusable, modular component design.
@@ -73,7 +78,9 @@ Provide meaningful feedback with loading and error states.
 
 Follow best practices for clean code and documentation.
 
-🧑‍💻 Future Enhancements
+
+
+## 🧑‍💻 Future Enhancements
 Add pagination or infinite scroll for performance with large data sets.
 
 Improve filtering to combine multiple criteria seamlessly.
@@ -84,10 +91,9 @@ Enhance styling with UI frameworks like Tailwind or Material UI.
 
 Add offline support and caching.
 
-🪪 License
-This project is for educational purposes as part of the DJS03 – React Landing Page module.
 
-vbnet
-Copy code
 
-If you want me to generate a README with your real repo URL or tweak anything else, just say the word!
+## 🪪 License
+This project is for educational purposes as part of the DJS05 – Navigation and Routing module.
+
+
