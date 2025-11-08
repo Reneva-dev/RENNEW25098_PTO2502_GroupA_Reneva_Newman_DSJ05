@@ -10,6 +10,8 @@ export default function GenreFilter({ genres }) {
 
   return (
     <select
+      id="genre-filter"
+      name="genre"
       className={styles.select}
       value={genre}
       onChange={(e) => setGenre(e.target.value)}
@@ -23,3 +25,4 @@ export default function GenreFilter({ genres }) {
     </select>
   );
 }
+
